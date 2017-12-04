@@ -1,0 +1,22 @@
+Name: Toy
+Courses: 5
+Rooms: 3
+Days: 5
+Periods_per_day: 3
+Curricula: 2
+
+COURSES:
+SceCosC Ocra 3 30
+ArcTec Indaco 3 42
+TecCos Rosa 5 40
+Geotec Scarlatti 5 18
+CC1000 Ocra 3 40
+
+ROOMS:
+rA 32
+rB 50
+rC 40
+
+CURRICULA:
+Cur1 3 SceCosC ArcTec TecCos
+Cur2 3 TecCos Geotec CC1000
