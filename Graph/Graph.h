@@ -29,6 +29,8 @@ public:
 
     void print_nodes();
 
+    void to_file(fstream* f);
+
     bool max_weight_neighborhood(string node_name, Node *nodeptr);
 
     void neighbor_colours(string node_name, vector<Colour*>* container);

@@ -88,6 +88,19 @@ void Graph::print_nodes() {
     std::cout << std::flush;
 }
 
+void Graph::to_file(fstream* f){
+    for(const auto& node : nodes){
+        if(node.second->colour){
+            *f << node.second->course_code << ' '
+                      << node.second->colour->day_number << ' '
+                      << node.second->colour->time_period_id << ' '
+                      << node.second->room << ' '
+                      <<  '\n';
+        }
+    }
+    f->flush();
+}
+
 void build_graph(CTT_Data *data, Graph *g){
     default_random_engine generator;
     uniform_int_distribution<int> distribution(0,INT32_MAX);
