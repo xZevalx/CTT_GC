@@ -4,16 +4,13 @@
 
 #include "ctt_reader.h"
 
-void read_courses(ifstream *f, unordered_map<string, Course*> *storage,
-                  unordered_map<string, vector<string>> *courses_per_tch) {
+void read_courses(ifstream *f, unordered_map<string, Course *> *storage,
+                  unordered_map<string, vector<string>> *courses_per_tch, int ncourses) {
     string line;
     stringstream ss;
     string cname, cteacher, slectures, sstudents;
     int nlectures, nstudents;
-    while (getline(*f,line)){
-        if (line.empty()){
-            break;
-        }
+    while (getline(*f,line) && ncourses){
         ss.write(line.c_str(), line.length());
         ss >> cname; ss >> cteacher; ss >> slectures; ss >> sstudents;
         ss.clear();
@@ -21,36 +18,32 @@ void read_courses(ifstream *f, unordered_map<string, Course*> *storage,
         nstudents = stoi(sstudents);
         (*storage)[cname] = new Course(cname, cteacher, nlectures, nstudents);
         (*courses_per_tch)[cteacher].push_back(cname);
+        --ncourses;
     }
 }
 
-void read_rooms(ifstream *f, vector<Room> *storage){
+void read_rooms(ifstream *f, vector<Room> *storage, int nrooms) {
     string line;
     stringstream ss;
     string rname, capacity;
     int ncapacity;
-    while (getline(*f,line)){
-        if (line.empty()){
-            break;
-        }
+    while (getline(*f,line) && nrooms){
         ss.write(line.c_str(), line.length());
         ss >> rname; ss >> capacity;
         ss.clear();
         ncapacity = stoi(capacity);
         storage->push_back(Room(rname, ncapacity));
+        --nrooms;
     }
 }
 
-void read_curriculas(ifstream *f, vector<Curricula> *storage) {
+void read_curriculas(ifstream *f, vector<Curricula> *storage, int ncurriculas) {
     string line;
     stringstream ss;
     string curname, str_ncourses, cname;
     int ncourses = -1;
     vector<string> courses_codes;
-    while (getline(*f, line)){
-        if (line.empty()){
-            break;
-        }
+    while (getline(*f, line) && ncurriculas){
         ss.write(line.c_str(), line.length());
         ss >> curname; ss >> str_ncourses;
         ncourses = stoi(str_ncourses);
@@ -61,6 +54,7 @@ void read_curriculas(ifstream *f, vector<Curricula> *storage) {
         storage->push_back(Curricula(curname, courses_codes));
         ss.clear();
         courses_codes.clear();
+        --ncurriculas;
     }
 }
 
@@ -101,13 +95,13 @@ void read_ctt_file(string path, CTT_Data *data) {
         } else if (starts_with(s, "Periods_per_day")) {
             data->periods_per_day = metadata_value(s);
         } else if (starts_with(s, "Curricula")) {
-            data->curricula = metadata_value(s);
+            data->ncurriculas = metadata_value(s);
         } else if (starts_with(s, "COURSES")) {
-            read_courses(&ifile, &data->courses, &data->courses_per_teacher);
+            read_courses(&ifile, &data->courses, &data->courses_per_teacher, data->ncourses);
         } else if (starts_with(s, "ROOMS")) {
-            read_rooms(&ifile, &data->rooms);
+            read_rooms(&ifile, &data->rooms, data->nrooms);
         } else if (starts_with(s, "CURRICULA")) {
-            read_curriculas(&ifile, &data->curriculas);
+            read_curriculas(&ifile, &data->curriculas, data->ncurriculas);
         }
     }
     ifile.close();

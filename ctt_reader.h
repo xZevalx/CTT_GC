@@ -21,7 +21,7 @@ public:
     int nrooms;
     int days;
     int periods_per_day;
-    int curricula;
+    int ncurriculas;
     unordered_map<string, Course*> courses;
     vector<Room> rooms;
     vector<Curricula> curriculas;
@@ -37,8 +37,8 @@ int metadata_value(string s);
 void read_courses(ifstream *f, unordered_map<string, Course> *storage,
                   unordered_map<string, vector<string>> *courses_per_tch);
 
-void read_rooms(ifstream *f, vector<Room> *storage);
+void read_rooms(ifstream *f, vector<Room> *storage, int nrooms);
 
-void read_curriculas(ifstream *f, vector<Curricula> *storage);
+void read_curriculas(ifstream *f, vector<Curricula> *storage, int ncurriculas);
 
 #endif //CTTTOGVC_CTT_READER_H

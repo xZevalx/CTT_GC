@@ -8,7 +8,7 @@ using namespace std;
 int main() {
     CTT_Data data;
     std::cout << "Leyendo archivo\n";
-    read_ctt_file("../comp02.ctt", &data);
+    read_ctt_file("../DDS1.ctt", &data);
     Graph g;
     std::cout << "Construyendo grafo\n";
     build_graph(&data, &g);
